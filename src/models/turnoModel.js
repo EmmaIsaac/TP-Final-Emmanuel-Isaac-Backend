@@ -94,7 +94,7 @@ const updateTurno = async (id, dataTurno) => {
 
 const deleteTurno = async (id) => {
   try {
-    const turnoEliminado = await Turno.findByIdAndDelete(id);
+    const turnoEliminado = await Turno.deleteOne({ _id: id });
     return turnoEliminado;
   } catch (error) {
     throw new Error("Error al eliminar el turno");
