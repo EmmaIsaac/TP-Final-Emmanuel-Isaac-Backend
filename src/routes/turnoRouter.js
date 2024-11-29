@@ -1,12 +1,18 @@
 import { Router } from "express";
-import { getAllTurnos, createTurno } from "../controllers/turnoController.js";
+import {
+  getAllTurnos,
+  getTurnoById,
+  createTurno,
+  updateTurno,
+  deleteTurno,
+} from "../controllers/turnoController.js";
 
 const turnoRouter = Router();
 
 turnoRouter.get("/", getAllTurnos);
-// turnoRouter.get("/:id", getTurnoById);
+turnoRouter.get("/:id", getTurnoById);
 turnoRouter.post("/", createTurno);
-// turnoRouter.put("/:id", updateTurno);
-// turnoRouter.delete("/:id", deleteTurno);
+turnoRouter.patch("/:id", updateTurno);
+turnoRouter.delete("/:id", deleteTurno);
 
 export { turnoRouter };
