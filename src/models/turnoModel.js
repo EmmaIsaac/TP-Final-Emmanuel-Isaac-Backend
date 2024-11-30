@@ -62,12 +62,27 @@ const getAllTurnos = async () => {
   }
 };
 
-const getTurnoById = async (id) => {
+// const findTurno = async (dataTurno) => {
+//   try {
+//     const { fecha, hora, profesional } = dataTurno;
+//     const turno = await Turno.findOne({
+//       fecha,
+//       hora,
+//       profesional,
+//       estado: "confirmado",
+//     });
+//     return turno;
+//   } catch (error) {
+//     throw new Error("El Turno no pudo ser encontrado");
+//   }
+// };
+
+const findTurno = async (dataTurno) => {
   try {
-    const turno = await Turno.findById(id);
+    const turno = await Turno.findOne(dataTurno);
     return turno;
   } catch (error) {
-    throw new Error("Error al obtener el turno");
+    throw new Error("El Turno no pudo ser encontrado");
   }
 };
 
@@ -83,9 +98,12 @@ const createTurno = async (dataTurno) => {
 
 const updateTurno = async (id, dataTurno) => {
   try {
-    const turnoActualizado = await Turno.findByIdAndUpdate(id, dataTurno, {
-      new: true,
-    });
+    const { estado } = dataTurno;
+    const turnoActualizado = await Turno.findByIdAndUpdate(
+      id,
+      { estado },
+      { new: true }
+    );
     return turnoActualizado;
   } catch (error) {
     throw new Error("Error al actualizar el turno");
@@ -103,7 +121,7 @@ const deleteTurno = async (id) => {
 
 export default {
   getAllTurnos,
-  getTurnoById,
+  findTurno,
   createTurno,
   updateTurno,
   deleteTurno,
