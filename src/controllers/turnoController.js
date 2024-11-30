@@ -18,6 +18,9 @@ const getTurnoByProfesional = async (req, res) => {
   try {
     const { profesional } = req.params;
     const response = await Turno.findTurno({ profesional });
+    if (!response) {
+      return res.status(404).json({ error: "Turno no encontrado" });
+    }
     res.status(200).json(response);
   } catch (error) {
     res.status(500).json({ error: error.message });
