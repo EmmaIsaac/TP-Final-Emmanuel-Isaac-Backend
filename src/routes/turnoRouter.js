@@ -4,14 +4,13 @@ import {
   createTurno,
   updateTurno,
   deleteTurno,
-  getTurnoByProfesional,
+  getTurnoById,
 } from "../controllers/turnoController.js";
 
 const turnoRouter = Router();
 
 turnoRouter.get("/", getAllTurnos);
-//http://localhost:1234/api/turnos/profesional/Carlos%20Sánchez
-turnoRouter.get("/profesional/:profesional", getTurnoByProfesional);
+turnoRouter.get("/:id", getTurnoById);
 turnoRouter.post("/", createTurno);
 turnoRouter.patch("/:id", updateTurno);
 turnoRouter.delete("/:id", deleteTurno);

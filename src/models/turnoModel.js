@@ -45,7 +45,7 @@ const turnoSchema = new mongoose.Schema(
     estado: {
       type: String,
       default: "confirmado", // Valor por defecto
-      enum: ["confirmado", "realizado", "cancelado"], // Opciones válidas para el estado
+      enum: ["confirmado", "realizado"], // Opciones válidas para el estado. Si se Cancela, se elimina el turno
     },
   },
   { versionKey: false } // Esto deshabilita el campo __v

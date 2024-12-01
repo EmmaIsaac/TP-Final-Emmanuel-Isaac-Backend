@@ -14,10 +14,10 @@ const getAllTurnos = async (req, res) => {
   }
 };
 
-const getTurnoByProfesional = async (req, res) => {
+const getTurnoById = async (req, res) => {
   try {
-    const { profesional } = req.params;
-    const response = await Turno.findTurno({ profesional });
+    const { id } = req.params;
+    const response = await Turno.findTurno({ _id: id });
     if (!response) {
       return res.status(404).json({ error: "Turno no encontrado" });
     }
@@ -53,7 +53,7 @@ const createTurno = async (req, res) => {
       fecha,
       hora,
       profesional,
-      estado: "confirmado",
+      estado: "confirmado", //REVIZAR si estado si o estado no
     });
 
     if (turno) {
@@ -69,21 +69,37 @@ const createTurno = async (req, res) => {
 const updateTurno = async (req, res) => {
   try {
     const { id } = req.params;
-    const { estado } = req.body;
+    const { dia, hora, profesional } = req.body;
     if (!estado) {
       return res.status(400).json({ error: "El estado es obligatorio" });
     }
-    const turno = await Turno.findTurno({ _id: id });
+    const turno = await Turno.findTurno({ _id: id }); //tambien verificar si no colociona con otro existente
     if (!turno) {
       return res.status(404).json({ error: "Turno no encontrado" });
     }
-    const turnoActualizado = await Turno.updateTurno(id, { estado });
+
+    const turnoExisting = await Turno.findTurno({
+      fecha,
+      hora,
+      profesional,
+    });
+
+    if (turnoExisting) {
+      return res.status(409).json({ error: "Turno ya existente" });
+    }
+
+    const turnoActualizado = await Turno.updateTurno(id, {
+      dia,
+      hora,
+      profesional,
+    }); //Mejor modificar el dia+hora+profesional
     res.status(200).json(turnoActualizado);
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
 };
 
+//Se borran los turnos cancelados. Y los realizados?
 const deleteTurno = async (req, res) => {
   try {
     const turno = await Turno.findTurno({ _id: req.params.id });
@@ -97,10 +113,4 @@ const deleteTurno = async (req, res) => {
   }
 };
 
-export {
-  getAllTurnos,
-  createTurno,
-  updateTurno,
-  deleteTurno,
-  getTurnoByProfesional,
-};
+export { getAllTurnos, createTurno, updateTurno, deleteTurno, getTurnoById };
