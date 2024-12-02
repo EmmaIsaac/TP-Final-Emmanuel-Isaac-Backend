@@ -98,12 +98,9 @@ const createTurno = async (dataTurno) => {
 
 const updateTurno = async (id, dataTurno) => {
   try {
-    const { estado } = dataTurno;
-    const turnoActualizado = await Turno.findByIdAndUpdate(
-      id,
-      { estado },
-      { new: true }
-    );
+    const turnoActualizado = await Turno.findByIdAndUpdate(id, dataTurno, {
+      new: true,
+    });
     return turnoActualizado;
   } catch (error) {
     throw new Error("Error al actualizar el turno");

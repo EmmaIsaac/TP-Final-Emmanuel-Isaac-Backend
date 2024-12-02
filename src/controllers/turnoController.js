@@ -69,30 +69,32 @@ const createTurno = async (req, res) => {
 const updateTurno = async (req, res) => {
   try {
     const { id } = req.params;
-    const { dia, hora, profesional } = req.body;
-    if (!estado) {
-      return res.status(400).json({ error: "El estado es obligatorio" });
-    }
-    const turno = await Turno.findTurno({ _id: id }); //tambien verificar si no colociona con otro existente
+    const { fecha, hora, profesional } = req.body;
+
+    const turno = await Turno.findTurno({ _id: id });
     if (!turno) {
-      return res.status(404).json({ error: "Turno no encontrado" });
+      return res
+        .status(404)
+        .json({ error: "El turno que quiere actualizar no existe" });
     }
 
-    const turnoExisting = await Turno.findTurno({
+    const turnoOcupado = await Turno.findTurno({
       fecha,
       hora,
       profesional,
     });
 
-    if (turnoExisting) {
-      return res.status(409).json({ error: "Turno ya existente" });
+    if (turnoOcupado && turnoOcupado._id.toString() !== id) {
+      return res
+        .status(409)
+        .json({ error: "Turno ocupado. No se puede actualizar" });
     }
 
     const turnoActualizado = await Turno.updateTurno(id, {
-      dia,
+      fecha,
       hora,
       profesional,
-    }); //Mejor modificar el dia+hora+profesional
+    });
     res.status(200).json(turnoActualizado);
   } catch (error) {
     res.status(500).json({ error: error.message });
@@ -102,11 +104,12 @@ const updateTurno = async (req, res) => {
 //Se borran los turnos cancelados. Y los realizados?
 const deleteTurno = async (req, res) => {
   try {
-    const turno = await Turno.findTurno({ _id: req.params.id });
+    const { id } = req.params;
+    const turno = await Turno.findTurno({ _id: id });
     if (!turno) {
       return res.status(404).json({ error: "Turno no encontrado" });
     }
-    const turnoEliminado = await Turno.deleteTurno(req.params.id);
+    const turnoEliminado = await Turno.deleteTurno(id);
     res.status(200).json(turnoEliminado);
   } catch (error) {
     res.status(500).json({ error: error.message });

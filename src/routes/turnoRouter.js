@@ -12,7 +12,7 @@ const turnoRouter = Router();
 turnoRouter.get("/", getAllTurnos);
 turnoRouter.get("/:id", getTurnoById);
 turnoRouter.post("/", createTurno);
-turnoRouter.patch("/:id", updateTurno);
+turnoRouter.put("/:id", updateTurno);
 turnoRouter.delete("/:id", deleteTurno);
 
 export { turnoRouter };
