@@ -1,3 +1,4 @@
+import e from "express";
 import Turno from "../models/turnoModel.js";
 
 const getAllTurnos = async (req, res) => {
@@ -53,7 +54,7 @@ const createTurno = async (req, res) => {
       fecha,
       hora,
       profesional,
-      estado: "confirmado", //REVIZAR si estado si o estado no
+      estado: "confirmado",
     });
 
     if (turno) {
@@ -69,7 +70,7 @@ const createTurno = async (req, res) => {
 const updateTurno = async (req, res) => {
   try {
     const { id } = req.params;
-    const { fecha, hora, profesional } = req.body;
+    const { fecha, hora, profesional, servicio, estado } = req.body;
 
     const turno = await Turno.findTurno({ _id: id });
     if (!turno) {
@@ -82,6 +83,7 @@ const updateTurno = async (req, res) => {
       fecha,
       hora,
       profesional,
+      estado: "confirmado",
     });
 
     if (turnoOcupado && turnoOcupado._id.toString() !== id) {
@@ -94,6 +96,8 @@ const updateTurno = async (req, res) => {
       fecha,
       hora,
       profesional,
+      servicio,
+      estado,
     });
     res.status(200).json(turnoActualizado);
   } catch (error) {
