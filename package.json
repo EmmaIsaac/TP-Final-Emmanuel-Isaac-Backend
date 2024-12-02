@@ -1,7 +1,7 @@
 {
   "name": "tp-final-emmanuel-isaac-backend",
   "version": "1.0.0",
-  "description": "",
+  "description": "API RESTful desarrollada con Express para administrar los turnos de una Barberia",
   "main": "index.js",
   "type": "module",
   "scripts": {

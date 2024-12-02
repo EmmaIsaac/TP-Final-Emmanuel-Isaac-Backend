@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 import jwt from "jsonwebtoken";
-import bcypt from "bcrypt";
+import bcypt from "bcryptjs";
 
 process.loadEnvFile();
 const JWT_SECRET = process.env.JWT_SECRET;
@@ -11,12 +11,10 @@ const userSchema = new mongoose.Schema(
       type: String,
       required: true,
       unique: true,
-      length: [4, "El nombre de usuario debe tener al menos 4 caracteres"],
     },
     password: {
       type: String,
       required: true,
-      length: [8, "La contraseña debe tener al menos 8 caracteres"],
     },
   },
   { versionKey: false }
