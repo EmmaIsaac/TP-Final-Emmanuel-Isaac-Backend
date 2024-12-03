@@ -1,4 +1,5 @@
 import { Router } from "express";
+import { authMiddleware } from "../middleware/authMiddleware.js";
 import {
   getAllTurnos,
   createTurno,
@@ -8,6 +9,8 @@ import {
 } from "../controllers/turnoController.js";
 
 const turnoRouter = Router();
+
+turnoRouter.use(authMiddleware);
 
 turnoRouter.get("/", getAllTurnos);
 turnoRouter.get("/:id", getTurnoById);
