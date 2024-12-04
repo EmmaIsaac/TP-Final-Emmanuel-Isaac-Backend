@@ -62,21 +62,6 @@ const getAllTurnos = async () => {
   }
 };
 
-// const findTurno = async (dataTurno) => {
-//   try {
-//     const { fecha, hora, profesional } = dataTurno;
-//     const turno = await Turno.findOne({
-//       fecha,
-//       hora,
-//       profesional,
-//       estado: "confirmado",
-//     });
-//     return turno;
-//   } catch (error) {
-//     throw new Error("El Turno no pudo ser encontrado");
-//   }
-// };
-
 const findTurno = async (dataTurno) => {
   try {
     const turno = await Turno.findOne(dataTurno);
