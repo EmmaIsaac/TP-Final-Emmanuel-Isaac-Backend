@@ -8,7 +8,7 @@ Esta API permite gestionar turnos, incluyendo la creación, consulta, actualizac
 
 #### **Registro de Usuario**
 
-**URL:** `/register`  
+**URL:** `/api/users/register`  
 **Método:** `POST`  
 **Descripción:** Permite registrar un nuevo usuario en el sistema.  
 **Cuerpo de la Solicitud (JSON):**
@@ -28,7 +28,7 @@ Esta API permite gestionar turnos, incluyendo la creación, consulta, actualizac
 
 #### **Inicio de Sesión**
 
-**URL:** `/login`  
+**URL:** `/api/users/login`  
 **Método:** `POST`  
 **Descripción:** Autentica a un usuario y genera un token.  
 **Cuerpo de la Solicitud (JSON):**
@@ -52,7 +52,7 @@ Esta API permite gestionar turnos, incluyendo la creación, consulta, actualizac
 
 #### **Obtener Todos los Turnos**
 
-**URL:** `/turnos`  
+**URL:** `/api/turnos`  
 **Método:** `GET`  
 **Descripción:** Devuelve la lista completa de turnos.  
 **Respuestas:**
@@ -63,7 +63,7 @@ Esta API permite gestionar turnos, incluyendo la creación, consulta, actualizac
 
 #### **Obtener un Turno por ID**
 
-**URL:** `/turnos/:id`  
+**URL:** `/api/turnos/:id`  
 **Método:** `GET`  
 **Descripción:** Devuelve los detalles de un turno específico.  
 **Parámetros de URL:**
@@ -76,7 +76,7 @@ Esta API permite gestionar turnos, incluyendo la creación, consulta, actualizac
 
 #### **Crear un Nuevo Turno**
 
-**URL:** `/turnos`  
+**URL:** `/api/turnos`  
 **Método:** `POST`  
 **Descripción:** Crea un nuevo turno.  
 **Cuerpo de la Solicitud (JSON):**
@@ -103,7 +103,7 @@ Esta API permite gestionar turnos, incluyendo la creación, consulta, actualizac
 
 #### **Actualizar un Turno**
 
-**URL:** `/turnos/:id`  
+**URL:** `/api/turnos/:id`  
 **Método:** `PUT`  
 **Descripción:** Actualiza un turno existente.  
 **Parámetros de URL:**
@@ -132,7 +132,7 @@ Esta API permite gestionar turnos, incluyendo la creación, consulta, actualizac
 
 #### **Eliminar un Turno**
 
-**URL:** `/turnos/:id`  
+**URL:** `/api/turnos/:id`  
 **Método:** `DELETE`  
 **Descripción:** Elimina un turno por su ID.  
 **Parámetros de URL:**
@@ -181,8 +181,10 @@ La API utiliza **MongoDB** como base de datos principal. Las colecciones princip
 
 - **Node.js** con **Express.js** para el backend.
 - **MongoDB** para almacenamiento de datos.
+- **Mongoose** para interactuar con la base de datos MongoSB.
 - **Express-Validator** para validación de entradas.
 - **JWT** para autenticación basada en tokens.
+- **Bcryptjs** para hashear el password del usuario.
 
 ## **Cómo Correr la API**
 
@@ -198,7 +200,7 @@ La API utiliza **MongoDB** como base de datos principal. Las colecciones princip
 3. Iniciar el servidor:
 
    ```bash
-   npm start
+   npm run dev
    ```
 
 4. Accede a la API a través de `http://localhost:<puerto>` (por defecto, 3000).
