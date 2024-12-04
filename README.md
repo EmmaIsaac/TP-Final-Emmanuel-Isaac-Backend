@@ -180,6 +180,7 @@ La API utiliza **MongoDB** como base de datos principal. Las colecciones princip
 ## **Tecnologías Utilizadas**
 
 - **Node.js** con **Express.js** para el backend.
+- **Helmet** para la seguridad.
 - **MongoDB** para almacenamiento de datos.
 - **Mongoose** para interactuar con la base de datos MongoSB.
 - **Express-Validator** para validación de entradas.
