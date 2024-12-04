@@ -83,6 +83,10 @@ Esta API permite gestionar turnos, incluyendo la creación, consulta, actualizac
 
 ```json
 {
+  "cliente": {
+    "nombre": "string",
+    "numeroContacto": "string"
+  },
   "fecha": "string (YYYY-MM-DD)",
   "hora": "string (HH:MM)",
   "profesional": "string",
