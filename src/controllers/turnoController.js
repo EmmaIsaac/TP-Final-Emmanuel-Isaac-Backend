@@ -1,4 +1,5 @@
 import Turno from "../models/turnoModel.js";
+import { validationResult } from "express-validator";
 
 const getAllTurnos = async (req, res) => {
   try {
@@ -28,27 +29,12 @@ const getTurnoById = async (req, res) => {
 };
 const createTurno = async (req, res) => {
   try {
-    const {
-      fecha,
-      hora,
-      profesional,
-      servicio,
-      cliente: { nombre, numeroContacto },
-    } = req.body;
-
-    if (
-      !fecha ||
-      !hora ||
-      !profesional ||
-      !servicio ||
-      !nombre ||
-      !numeroContacto
-    ) {
-      return res
-        .status(400)
-        .json({ error: "Todos los campos son obligatorios" });
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });
     }
 
+    const { fecha, hora, profesional } = req.body;
     const turno = await Turno.findTurno({
       fecha,
       hora,
@@ -68,6 +54,11 @@ const createTurno = async (req, res) => {
 
 const updateTurno = async (req, res) => {
   try {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });
+    }
+
     const { id } = req.params;
     const { fecha, hora, profesional, servicio, estado } = req.body;
 

@@ -7,6 +7,8 @@ import {
   deleteTurno,
   getTurnoById,
 } from "../controllers/turnoController.js";
+import { validateCreate } from "../middleware/validateCreate.js";
+import { validateUpdate } from "../middleware/validateUpdate.js";
 
 const turnoRouter = Router();
 
@@ -14,8 +16,8 @@ turnoRouter.use(authMiddleware);
 
 turnoRouter.get("/", getAllTurnos);
 turnoRouter.get("/:id", getTurnoById);
-turnoRouter.post("/", createTurno);
-turnoRouter.put("/:id", updateTurno);
+turnoRouter.post("/", validateCreate, createTurno);
+turnoRouter.put("/:id", validateUpdate, updateTurno);
 turnoRouter.delete("/:id", deleteTurno);
 
 export { turnoRouter };
