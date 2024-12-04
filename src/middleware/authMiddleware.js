@@ -8,7 +8,7 @@ const authMiddleware = (req, res, next) => {
     const token = req.headers.authorization?.split(" ")[1];
 
     if (!token) {
-      return res.status(401).json({ error: "Token no proporcionado" });
+      return res.status(400).json({ error: "Token no proporcionado" });
     }
 
     const decodedToken = jwt.verify(token, JWT_SECRET);

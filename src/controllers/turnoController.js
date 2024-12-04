@@ -1,4 +1,3 @@
-import e from "express";
 import Turno from "../models/turnoModel.js";
 
 const getAllTurnos = async (req, res) => {
