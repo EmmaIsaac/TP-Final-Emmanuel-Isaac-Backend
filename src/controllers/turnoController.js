@@ -95,7 +95,6 @@ const updateTurno = async (req, res) => {
   }
 };
 
-//Se borran los turnos cancelados. Y los realizados?
 const deleteTurno = async (req, res) => {
   try {
     const { id } = req.params;
