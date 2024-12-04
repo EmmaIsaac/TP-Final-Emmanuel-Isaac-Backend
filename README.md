@@ -1,193 +1,202 @@
-# Documentación de la API - Turnos
+# Documentación de la API de Gestión de Turnos
 
-Esta API permite gestionar turnos de una barberia. A continuación, se describen los endpoints disponibles.
+Esta API permite gestionar turnos, incluyendo la creación, consulta, actualización y eliminación de los mismos. Para acceder a sus funcionalidades, los usuarios deben registrarse y autenticarse. La API utiliza **MongoDB** para la gestión de datos y **Express-Validator** para validar las entradas de datos.
 
-## Base URL
+## **Endpoints Disponibles**
 
-`localhost:${PORT}`
+### **1. Autenticación**
 
-## **Usuarios**
+#### **Registro de Usuario**
 
-### 1. Registro de usuario
-
-**URL**: `/api/users/register`  
-**Método**: `POST`  
-**Descripción**: Permite registrar un nuevo usuario.
-
-**Body (JSON)**:
+**URL:** `/register`  
+**Método:** `POST`  
+**Descripción:** Permite registrar un nuevo usuario en el sistema.  
+**Cuerpo de la Solicitud (JSON):**
 
 ```json
 {
-  "username": "Marcos Allende",
-  "password": "87654321"
+  "username": "string",
+  "password": "string"
 }
 ```
 
-**Respuestas**:
+**Respuestas:**
 
-- `201`: Usuario registrado correctamente.
-- `400`: Error de validación.
+- **201:** Usuario creado exitosamente.
+- **400:** Campos obligatorios no proporcionados.
+- **500:** Error interno del servidor.
 
----
+#### **Inicio de Sesión**
 
-### 2. Login de usuario
-
-**URL**: `/api/users/login`  
-**Método**: `POST`  
-**Descripción**: Permite autenticar a un usuario y devuelve un token JWT para las solicitudes protegidas.
-
-**Body (JSON)**:
+**URL:** `/login`  
+**Método:** `POST`  
+**Descripción:** Autentica a un usuario y genera un token.  
+**Cuerpo de la Solicitud (JSON):**
 
 ```json
 {
-  "username": "Marcos Allende",
-  "password": "87654321"
+  "username": "string",
+  "password": "string"
 }
 ```
 
-**Respuestas**:
+**Respuestas:**
 
-- `200`: Usuario autenticado. Respuesta de ejemplo:
+- **200:** Devuelve el token de autenticación.
+- **400:** Campos obligatorios no proporcionados.
+- **500:** Error interno del servidor.
+
+---
+
+### **2. Gestión de Turnos**
+
+#### **Obtener Todos los Turnos**
+
+**URL:** `/turnos`  
+**Método:** `GET`  
+**Descripción:** Devuelve la lista completa de turnos.  
+**Respuestas:**
+
+- **200:** Lista de turnos.
+- **404:** No se encontraron turnos.
+- **500:** Error interno del servidor.
+
+#### **Obtener un Turno por ID**
+
+**URL:** `/turnos/:id`  
+**Método:** `GET`  
+**Descripción:** Devuelve los detalles de un turno específico.  
+**Parámetros de URL:**
+
+- `id` (string): ID del turno.  
+  **Respuestas:**
+- **200:** Detalles del turno.
+- **404:** Turno no encontrado.
+- **500:** Error interno del servidor.
+
+#### **Crear un Nuevo Turno**
+
+**URL:** `/turnos`  
+**Método:** `POST`  
+**Descripción:** Crea un nuevo turno.  
+**Cuerpo de la Solicitud (JSON):**
 
 ```json
 {
-  "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+  "fecha": "string (YYYY-MM-DD)",
+  "hora": "string (HH:MM)",
+  "profesional": "string",
+  "servicio": "string"
 }
 ```
 
-- `400`: Token no proporcionado.
-- `401`: Token invalido.
+**Respuestas:**
 
----
+- **201:** Turno creado exitosamente.
+- **400:** Validación fallida.
+- **409:** Turno ya existente.
+- **500:** Error interno del servidor.
 
-## **Turnos**
+#### **Actualizar un Turno**
 
-### 1. Obtener todos los turnos
+**URL:** `/turnos/:id`  
+**Método:** `PUT`  
+**Descripción:** Actualiza un turno existente.  
+**Parámetros de URL:**
 
-**URL**: `/api/turnos`  
-**Método**: `GET`  
-**Descripción**: Devuelve una lista de todos los turnos disponibles.
+- `id` (string): ID del turno.
 
-**Headers**:
-
-- `Authorization`: Bearer `<token>`
-
-**Respuestas**:
-
-- `200`: Lista de turnos.
-- `401`: No autorizado.
-
----
-
-### 2. Crear un turno
-
-**URL**: `/api/turnos`  
-**Método**: `POST`  
-**Descripción**: Crea un nuevo turno.
-
-**Headers**:
-
-- `Authorization`: Bearer `<token>`
-
-**Body (JSON)**:
+**Cuerpo de la Solicitud (JSON):**
 
 ```json
 {
-  "cliente": {
-    "nombre": "Marcos Allende",
-    "numeroContacto": "+54 11 8765-0000"
-  },
-  "fecha": "2024-11-28",
-  "hora": "08:00",
-  "profesional": "Carlos Sánchez",
-  "servicio": "Corte de pelo"
+  "fecha": "string (YYYY-MM-DD)",
+  "hora": "string (HH:MM)",
+  "profesional": "string",
+  "servicio": "string",
+  "estado": "string"
 }
 ```
 
-**Respuestas**:
+**Respuestas:**
 
-- `201`: Turno creado correctamente.
-- `400`: Error de validación.
-- `401`: No autorizado.
+- **200:** Turno actualizado exitosamente.
+- **400:** Validación fallida.
+- **404:** Turno no encontrado.
+- **409:** El turno está ocupado y no se puede actualizar.
+- **500:** Error interno del servidor.
 
----
+#### **Eliminar un Turno**
 
-### 3. Obtener un turno por ID
+**URL:** `/turnos/:id`  
+**Método:** `DELETE`  
+**Descripción:** Elimina un turno por su ID.  
+**Parámetros de URL:**
 
-**URL**: `/api/turnos/{id}`  
-**Método**: `GET`  
-**Descripción**: Devuelve los detalles de un turno específico.
-
-**Headers**:
-
-- `Authorization`: Bearer `<token>`
-
-**Respuestas**:
-
-- `200`: Detalles del turno.
-- `404`: Turno no encontrado.
-- `401`: No autorizado.
+- `id` (string): ID del turno.  
+  **Respuestas:**
+- **200:** Turno eliminado exitosamente.
+- **404:** Turno no encontrado.
+- **500:** Error interno del servidor.
 
 ---
 
-### 4. Actualizar un turno
+## **Requisitos Previos**
 
-**URL**: `/api/turnos/{id}`  
-**Método**: `PUT`  
-**Descripción**: Actualiza un turno específico.
+1. **Registro y Autenticación:**  
+   Para utilizar la API, primero debes registrarte mediante el endpoint `/register` y luego autenticarte en `/login`. El token recibido en el inicio de sesión debe incluirse en la cabecera `Authorization` como `Bearer <token>` para los endpoints protegidos.
 
-**Headers**:
-
-- `Authorization`: Bearer `<token>`
-
-**Body (JSON)**:
-
-```json
-{
-  "fecha": "2024-11-28",
-  "hora": "08:30",
-  "estado": "realizado"
-}
-```
-
-**Respuestas**:
-
-- `200`: Turno actualizado correctamente.
-- `400`: Error de validación.
-- `404`: Turno no encontrado.
-- `401`: No autorizado.
+2. **Validaciones:**  
+   Los datos enviados en las solicitudes son validados utilizando **Express-Validator**. Si la validación falla, se devolverá un error con los detalles de las fallas.
 
 ---
 
-### 5. Eliminar un turno
+## **Base de Datos**
 
-**URL**: `/api/turnos/{id}`  
-**Método**: `DELETE`  
-**Descripción**: Elimina un turno específico.
+La API utiliza **MongoDB** como base de datos principal. Las colecciones principales son:
 
-**Headers**:
-
-- `Authorization`: Bearer `<token>`
-
-**Respuestas**:
-
-- `204`: Turno eliminado correctamente.
-- `404`: Turno no encontrado.
-- `401`: No autorizado.
+- **Usuarios:** Almacena la información de los usuarios registrados.
+- **Turnos:** Registra los turnos, incluyendo su fecha, hora, profesional, servicio y estado.
 
 ---
 
-## **Autenticación**
+## **Códigos de Estado**
 
-Todos los endpoints protegidos requieren un token JWT en el header de autorización:
-
-```
-Authorization: Bearer <token>
-```
+| Código | Descripción                        |
+| ------ | ---------------------------------- |
+| 200    | Solicitud exitosa.                 |
+| 201    | Recurso creado exitosamente.       |
+| 400    | Error en la solicitud del cliente. |
+| 404    | Recurso no encontrado.             |
+| 409    | Conflicto en los datos.            |
+| 500    | Error interno del servidor.        |
 
 ---
 
-## Notas
+## **Tecnologías Utilizadas**
 
-- Asegúrate de que el servidor esté corriendo en `localhost:${PORT}`.
-- Cambia `{id}` por el ID correspondiente del turno al realizar operaciones específicas.
+- **Node.js** con **Express.js** para el backend.
+- **MongoDB** para almacenamiento de datos.
+- **Express-Validator** para validación de entradas.
+- **JWT** para autenticación basada en tokens.
+
+## **Cómo Correr la API**
+
+1. Instalar las dependencias:
+
+   ```bash
+   npm install
+   ```
+
+2. Configurar las variables de entorno:
+   - Configura tu conexión a MongoDB.
+   - Añade una clave secreta para JWT.
+3. Iniciar el servidor:
+
+   ```bash
+   npm start
+   ```
+
+4. Accede a la API a través de `http://localhost:<puerto>` (por defecto, 3000).
+
+¡Listo! Puedes comenzar a usar la API.
