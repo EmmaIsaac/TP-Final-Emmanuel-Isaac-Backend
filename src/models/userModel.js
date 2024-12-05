@@ -24,15 +24,21 @@ const User = mongoose.model("user", userSchema);
 
 const register = async (dataUser) => {
   try {
+    const user = await User.findOne({ username: dataUser.username });
+    if (user) {
+      throw new Error("El usuario ya existe");
+    }
+
     const hashedPassword = await bcypt.hash(dataUser.password, 10);
-    const user = new User({
+
+    const newUser = new User({
       username: dataUser.username,
       password: hashedPassword,
     });
-    await user.save();
-    return user;
+    await newUser.save();
+    return newUser;
   } catch (error) {
-    throw new Error("Error al registrar el usuario");
+    throw error;
   }
 };
 
@@ -48,7 +54,7 @@ const login = async (dataUser) => {
     const token = jwt.sign({ id: user._id }, JWT_SECRET, { expiresIn: "1h" });
     return token;
   } catch (error) {
-    throw new Error("Error al iniciar sesión");
+    throw error;
   }
 };
 

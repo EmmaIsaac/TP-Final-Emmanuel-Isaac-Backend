@@ -23,11 +23,10 @@ export const validateCreate = [
   body("profesional")
     .isString()
     .withMessage("El profesional debe ser un texto")
-    .isIn(["Juan Pérez", "María López", "Carlos Sánchez", "Sin preferencia"])
+    .isIn(["Juan Pérez", "María López", "Carlos Sánchez"])
     .withMessage("El profesional debe ser una opción válida")
-    .optional({ nullable: true })
-    .default("Sin preferencia"),
-
+    .notEmpty()
+    .withMessage("El profesional es obligatorio"),
   // Validar servicio
   body("servicio")
     .isString()

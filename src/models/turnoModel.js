@@ -15,8 +15,8 @@ const turnoSchema = new mongoose.Schema(
     profesional: {
       type: String,
       required: true, // Campo obligatorio
-      default: "Sin preferencia",
-      enum: ["Juan Pérez", "María López", "Carlos Sánchez", "Sin preferencia"], // Opciones permitidas para el profesional
+
+      enum: ["Juan Pérez", "María López", "Carlos Sánchez"], // Opciones permitidas para el profesional
       trim: true,
     },
     servicio: {
