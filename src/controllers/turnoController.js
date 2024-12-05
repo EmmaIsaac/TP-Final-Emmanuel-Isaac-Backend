@@ -35,6 +35,14 @@ const createTurno = async (req, res) => {
     }
 
     const { fecha, hora, profesional } = req.body;
+
+    const horario = hora >= "10:00" && hora <= "19:00";
+    if (!horario) {
+      return res
+        .status(400)
+        .json({ error: "El horario debe estar entre las 10:00 y las 19:00" });
+    }
+
     const turno = await Turno.findTurno({
       fecha,
       hora,
@@ -43,7 +51,11 @@ const createTurno = async (req, res) => {
     });
 
     if (turno) {
-      return res.status(409).json({ error: "Turno ya existente" });
+      return res
+        .status(409)
+        .json({
+          error: "Turno ya existente. Pruebe otra hora y/o profesional",
+        });
     }
     const turnoCreado = await Turno.createTurno(req.body);
     res.status(201).json(turnoCreado);

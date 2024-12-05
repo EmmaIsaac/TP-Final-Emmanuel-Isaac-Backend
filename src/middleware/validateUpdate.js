@@ -22,7 +22,7 @@ export const validateUpdate = [
     .optional()
     .isString()
     .withMessage("El profesional debe ser un texto")
-    .isIn(["Juan Pérez", "María López", "Carlos Sánchez", "Sin preferencia"])
+    .isIn(["Juan Pérez", "María López", "Carlos Sánchez"])
     .withMessage("El profesional debe ser una opción válida"),
 
   // Validar servicio (opcional)
